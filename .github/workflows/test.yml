@@ -45,7 +45,7 @@ jobs:
           enable-cache: true
       - name: Set up Python ${{ matrix.python-version }}
         id: setup-python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
@@ -73,7 +73,7 @@ jobs:
           enable-cache: true
       - name: Set up Python ${{ env.MINIMUM_PYTHON_VERSION }}
         id: setup-python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ env.MINIMUM_PYTHON_VERSION }}
       - name: install lowest direct dependencies
