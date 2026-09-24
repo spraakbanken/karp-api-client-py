@@ -12,7 +12,7 @@ from returns.result import Failure, Result, Success
 
 from karp_api_client import AuthenticatedClient, Client, dsl, errors
 from karp_api_client.models.http_validation_error import HttpValidationError
-from karp_api_client.models.query_response import QueryResponse
+from karp_api_client.models.red.query_response import QueryResponse
 from karp_api_client.shared import Response
 
 

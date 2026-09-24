@@ -7,7 +7,7 @@ from typing import Any, ClassVar
 from karp_api_client.shared import UNSET, Unset
 
 try:
-    from typing import Self  # type: ignore [attr-defined]
+    from typing import Self  # ty: ignore[unresolved-import]
 except ImportError:
     from typing_extensions import Self
 

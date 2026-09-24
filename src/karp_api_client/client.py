@@ -6,7 +6,7 @@ import typing
 from typing import Any, TypeVar
 
 try:
-    from typing import Self  # type: ignore [attr-defined]
+    from typing import Self  # ty: ignore[unresolved-import]
 except ImportError:
     from typing_extensions import Self
 import attrs

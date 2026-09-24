@@ -8,7 +8,7 @@ from attrs import field as _attrs_field
 from karp_api_client.shared import UNSET, Unset
 
 if TYPE_CHECKING:
-    from karp_api_client.models.entry_dto_entry import EntryDtoEntry
+    from karp_api_client.models.red.entry_dto_entry import EntryDtoEntry
 
 
 T = TypeVar("T", bound="EntryDto")
@@ -80,7 +80,7 @@ class EntryDto:
     @classmethod
     def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
         """Deserialize from dict."""
-        from karp_api_client.models.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
+        from karp_api_client.models.red.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
 
         d = src_dict.copy()
         id_ = d.pop("id")
