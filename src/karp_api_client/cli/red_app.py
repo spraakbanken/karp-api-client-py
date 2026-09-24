@@ -2,7 +2,7 @@
 
 import datetime
 import sys
-from typing import Annotated
+import typing as t
 
 import json_arrays
 import typer
@@ -17,8 +17,8 @@ app = typer.Typer(help="Karp API client")
 @app.command()
 def query(
     resources: list[str],
-    output: Annotated[str | None, typer.Option(help="Output to this path")] = None,
-    size: Annotated[int | None, typer.Option(help="The number of hits requested")] = None,
+    output: t.Annotated[str | None, typer.Option(help="Output to this path")] = None,
+    size: t.Annotated[int | None, typer.Option(help="The number of hits requested")] = None,
 ) -> None:
     """Query the given resources."""
     if output is None:

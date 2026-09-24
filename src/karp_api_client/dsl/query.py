@@ -1,8 +1,8 @@
 """Karp Query DSL."""
 
 import copy
+import typing as t
 from collections.abc import Callable
-from typing import Any, ClassVar
 
 from karp_api_client.shared import UNSET, Unset
 
@@ -15,16 +15,16 @@ except ImportError:
 class Query:
     """Base class for all queries."""
 
-    _param_defs: ClassVar[dict[str, dict[str, str | bool]]] = {}
+    _param_defs: t.ClassVar[dict[str, dict[str, str | bool]]] = {}
 
-    def __init__(self, **params: Any) -> None:
+    def __init__(self, **params: t.Any) -> None:
         """Construct a Query."""
-        self._params: dict[str, Any] = {}
+        self._params: dict[str, t.Any] = {}
         for pname, pvalue in params.items():
             self._params[pname] = pvalue
 
     # Add type annotations for methods not defined in every subclass
-    __ror__: ClassVar[Callable[["Query", "Query"], "Query"]]
+    __ror__: t.ClassVar[Callable[["Query", "Query"], "Query"]]
 
     def __or__(self, other: "Query") -> "Query":
         """Combine queries with or."""
@@ -40,7 +40,7 @@ class Query:
             c._params[attr] = copy.copy(self._params[attr])
         return c
 
-    def __getattr__(self, name: str) -> Any:
+    def __getattr__(self, name: str) -> t.Any:
         """Read a value if it exists."""
         value = None
         try:
@@ -59,12 +59,12 @@ class Equals(Query):
     Stricter than `contains`.
     """
 
-    _param_defs: ClassVar[dict[str, dict[str, str | bool]]] = {
+    _param_defs: t.ClassVar[dict[str, dict[str, str | bool]]] = {
         "field": {"type": "query", "multi": False},
         "value": {"type": "query", "multi": False},
     }
 
-    def __init__(self, _field: str | Unset = UNSET, _value: str | Unset = UNSET, **kwargs: Any) -> None:
+    def __init__(self, _field: str | Unset = UNSET, _value: str | Unset = UNSET, **kwargs: t.Any) -> None:
         """Constuct a Equals query."""
         if _field is not UNSET:
             kwargs[str(_field)] = _value
@@ -78,7 +78,7 @@ class Equals(Query):
 class Or(Query):
     """Find all entries that matches any of the queries."""
 
-    _param_defs: ClassVar[dict[str, dict[str, str | bool]]] = {"ors": {"type": "query", "multi": True}}
+    _param_defs: t.ClassVar[dict[str, dict[str, str | bool]]] = {"ors": {"type": "query", "multi": True}}
 
     def __init__(self, *queries: Query) -> None:
         """Construct an Or query by combining two queries."""

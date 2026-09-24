@@ -1,11 +1,11 @@
 """Validation error."""
 
-from typing import Any, TypeVar, cast
+import typing as t
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="ValidationError")
+T = t.TypeVar("T", bound="ValidationError")
 
 
 @_attrs_define
@@ -21,9 +21,9 @@ class ValidationError:
     loc: list[int | str]
     msg: str
     type_: str
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """Serialize to dict."""
         loc = []
         for loc_item_data in self.loc:
@@ -35,7 +35,7 @@ class ValidationError:
 
         type_ = self.type_
 
-        field_dict: dict[str, Any] = {}
+        field_dict: dict[str, t.Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -48,7 +48,7 @@ class ValidationError:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
         d = src_dict.copy()
         loc = []
@@ -56,7 +56,7 @@ class ValidationError:
         for loc_item_data in loc_:
 
             def _parse_loc_item(data: object) -> int | str:
-                return cast(int | str, data)
+                return t.cast(int | str, data)
 
             loc_item = _parse_loc_item(loc_item_data)
 
@@ -80,11 +80,11 @@ class ValidationError:
         """Additonal keys."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> t.Any:
         """Get an additional property by 'key'."""
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: t.Any) -> None:
         """Set an additional property by 'key'."""
         self.additional_properties[key] = value
 

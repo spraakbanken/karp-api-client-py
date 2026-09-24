@@ -1,14 +1,14 @@
 """Utility types."""
 
+import typing as t
 from collections.abc import MutableMapping
 from http import HTTPStatus
-from typing import Generic, Literal, TypeVar
 
 import attrs
 
 
 class Unset:
-    def __bool__(self) -> Literal[False]:
+    def __bool__(self) -> t.Literal[False]:
         return False
 
     def __str__(self) -> str:
@@ -19,11 +19,11 @@ class Unset:
 
 
 UNSET: Unset = Unset()
-T = TypeVar("T")
+T = t.TypeVar("T")
 
 
 @attrs.define
-class Response(Generic[T]):
+class Response(t.Generic[T]):
     """A response from an endpoint."""
 
     status_code: HTTPStatus
