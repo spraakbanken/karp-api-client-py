@@ -26,6 +26,7 @@ dev = [
   "pytest-coverage>=0.0",
   "ruff>=0.16.2",
   "syrupy>=4.8.1",
+  "ty>=0.0.81",
 ]
 
 [build-system]
