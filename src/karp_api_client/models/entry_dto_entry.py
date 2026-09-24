@@ -1,6 +1,6 @@
 """Model for the entry in EntryDto."""
 
-from typing import Any, Optional, TypeVar
+from typing import Any, TypeVar
 
 import attrs
 
@@ -50,7 +50,7 @@ class EntryDtoEntry:
         """Check if additional properties contains 'key'."""
         return key in self.additional_properties
 
-    def get(self, key: str, default=None) -> Optional[Any]:  # noqa: ANN001
+    def get(self, key: str, default=None) -> Any | None:  # noqa: ANN001
         """Look up additional property by 'key' and fall back to default if not present."""
         try:
             return self.additional_properties[key]
