@@ -1,8 +1,12 @@
 """Example using this library in sync code."""
 
+import sys
+
+from returns.result import Failure, Success
+
 from karp_api_client import Client, dsl
-from karp_api_client.api import querying
-from karp_api_client.models.http_validation_error import HttpValidationError
+from karp_api_client.api.red import querying
+from karp_api_client.models.red import QueryResponse
 from karp_api_client.shared import Response
 
 
@@ -16,15 +20,15 @@ def main() -> None:  # noqa: D103
             client=client,
             query_options=querying.QueryOptions(size=25, q=q),
         )
-        response.map(_print_table).alt(_print_error)
-        # match response:
-        #     case Success(resp):
-        #         _print_table(resp.parsed)
-        #     case Failure(err):
-        #         print(f"Error occurred!\n{err}")
+        match response:
+            case Success(resp):
+                _print_table(resp)
+            case Failure(err):
+                print(f"Error occurred!\n{err}")  # noqa: T201
+                sys.exit(2)
 
 
-def _print_table(response: Response) -> None:
+def _print_table(response: Response[QueryResponse]) -> None:
     if response.parsed is None:
         print("No response")  # noqa: T201
         return
@@ -34,10 +38,6 @@ def _print_table(response: Response) -> None:
 
     print("---")  # noqa: T201
     print(f"showing {len(response.parsed.hits)} entries of {response.parsed.total} in total.")  # noqa: T201
-
-
-def _print_error(err: Response[HttpValidationError | None]) -> None:
-    print(f"Error occurred!\n{err}")  # noqa: T201
 
 
 if __name__ == "__main__":

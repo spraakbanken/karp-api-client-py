@@ -9,9 +9,9 @@ import typer
 from returns.result import Failure, Success
 
 from karp_api_client import Client
-from karp_api_client.api import querying
+from karp_api_client.api.red import querying
 
-app = typer.Typer(help="Karp API client")
+app = typer.Typer(help="Karp Red API client")
 
 
 @app.command()

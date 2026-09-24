@@ -6,7 +6,7 @@ import anyio
 from returns.interfaces.specific.ioresult import IOResultLike2
 
 from karp_api_client import Client, dsl
-from karp_api_client.api import querying
+from karp_api_client.api.red import querying
 from karp_api_client.shared import Response
 
 _IoKind = TypeVar("_IoKind", bound=IOResultLike2)
