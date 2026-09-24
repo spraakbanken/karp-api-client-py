@@ -7,7 +7,11 @@ requires-python = ">=3.10"
 authors = [
   { name = "Språkbanken", email = "sb-info@svenska.gu.se" },
 ]
-dependencies = ["attrs>=24.3.0", "httpx>=0.28.1", "returns>=0.23.0"]
+dependencies = [
+    "attrs>=24.3.0",
+    "httpx2>=2.13.0",
+    "returns>=0.23.0",
+]
 
 [project.scripts]
 karp-client = "karp_api_client.cli.app:app"

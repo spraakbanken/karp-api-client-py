@@ -1,13 +1,13 @@
 """Query endpoint."""
 
+import typing as t
 from collections.abc import Sequence
 from http import HTTPStatus
-from typing import Any
 from urllib import parse
 
 import attrs
-import httpx
-from httpx import codes
+import httpx2 as httpx
+from httpx2 import codes
 from returns.result import Failure, Result, Success
 
 from karp_api_client import AuthenticatedClient, Client, dsl, errors
@@ -111,15 +111,15 @@ async def query_async(
     return _build_query_response(client=client, response=response)
 
 
-def _get_query_kwargs(resources: Sequence[str] | str, *, query_options: QueryOptions | None) -> dict[str, Any]:
-    headers: dict[str, Any] = {}
+def _get_query_kwargs(resources: Sequence[str] | str, *, query_options: QueryOptions | None) -> dict[str, t.Any]:
+    headers: dict[str, t.Any] = {}
 
     resources_ = resources if isinstance(resources, str) else ",".join(resources)
 
     qs = "" if query_options is None else query_options.to_query_string()
     url = f"/query/{resources_}{'?' if qs else ''}{qs}"
 
-    kwargs: dict[str, Any] = {"method": "get", "url": url}
+    kwargs: dict[str, t.Any] = {"method": "get", "url": url}
     headers["Accept"] = "application/json"
     kwargs["headers"] = headers
     return kwargs
