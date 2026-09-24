@@ -10,7 +10,7 @@ authors = [
 dependencies = ["attrs>=24.3.0", "httpx>=0.28.1", "returns>=0.23.0"]
 
 [project.scripts]
-karp-client = "karp_api_client.cli:app"
+karp-client = "karp_api_client.cli.app:app"
 
 [project.optional-dependencies]
 cli = [
