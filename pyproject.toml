@@ -21,7 +21,6 @@ cli = [
 [dependency-groups]
 dev = [
   "anyio>=4.8.0",
-  "mypy>=1.14.1",
   "pytest>=8.3.4",
   "pytest-asyncio>=0.25.2",
   "pytest-coverage>=0.0",
