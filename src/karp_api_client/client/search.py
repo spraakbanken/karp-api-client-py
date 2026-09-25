@@ -12,14 +12,14 @@ T = t.TypeVar("T", bound="ClientBase")
 
 
 @attrs.define(slots=False)
-class RedClient(ClientBase):
+class SearchClient(ClientBase):
     """Client to use for unauthenticated API calls."""
 
-    _base_url: str = attrs.field(default="https://spraakbanken4.it.gu.se/karp/v7", alias="base_url")
+    _base_url: str = attrs.field(default="https://spraakbanken4.it.gu.se/karps/v1", alias="base_url")
 
 
 @attrs.define(slots=False)
-class AuthenticatedRedClient(RedClient):
+class AuthenticatedSearchClient(SearchClient):
     """Client to use for authenticated API calls."""
 
     _token: str = attrs.field(kw_only=True, alias="token")
@@ -35,12 +35,12 @@ class AuthenticatedRedClient(RedClient):
         return client
 
     @classmethod
-    def from_env(cls) -> "AuthenticatedRedClient":
+    def from_env(cls) -> "AuthenticatedSearchClient":
         """Create an AuthenticatedClient from env."""
         token = None
         if (
-            (token_from_env := os.environ.get("KARP_RED_API_CLIENT_API_TOKEN"))
-            or (token_from_env := os.environ.get("KARP_RED_API_TOKEN"))
+            (token_from_env := os.environ.get("KARP_SEARCH_API_CLIENT_API_TOKEN"))
+            or (token_from_env := os.environ.get("KARP_SEARCH_API_TOKEN"))
             or (token_from_env := os.environ.get("KARP_API_CLIENT_API_TOKEN"))
             or (token_from_env := os.environ.get("KARP_API_TOKEN"))
         ):
@@ -48,6 +48,6 @@ class AuthenticatedRedClient(RedClient):
 
         if token is None:
             raise RuntimeError(
-                "you must set KARP_RED_API_CLIENT_API_TOKEN, KARP_RED_API_TOKEN, KARP_API_CLIENT_API_TOKEN or KARP_API_TOKEN"  # noqa: E501
+                "you must set KARP_SEARCH_API_CLIENT_API_TOKEN, KARP_SEARCH_API_TOKEN, KARP_API_CLIENT_API_TOKEN or KARP_API_TOKEN"  # noqa: E501
             )
         return cls(token=token)

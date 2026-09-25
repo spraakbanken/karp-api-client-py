@@ -2,16 +2,19 @@
 
 import typing as t
 
+import attrs
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from karp_api_client.models import shared
 from karp_api_client.shared import UNSET, Unset
 
-if t.TYPE_CHECKING:
-    from karp_api_client.models.red.entry_dto_entry import EntryDtoEntry
-
-
 T = t.TypeVar("T", bound="EntryDto")
+
+
+@attrs.define
+class EntryDtoEntry(shared.WithAdditionalProperties):
+    """Entry for EntryDto.entry."""
 
 
 @_attrs_define
@@ -34,7 +37,7 @@ class EntryDto:
     last_modified: float
     last_modified_by: str
     resource: str
-    entry: "EntryDtoEntry"
+    entry: EntryDtoEntry
     message: Unset | str | None = UNSET
     discarded: Unset | bool = False
     additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)

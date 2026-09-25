@@ -1,15 +1,16 @@
-"""Model for the entry in EntryDto."""
+"""Shared classes."""
 
+import copy
 import typing as t
 
 import attrs
 
-T = t.TypeVar("T", bound="EntryDtoEntry")
+T = t.TypeVar("T", bound="WithAdditionalProperties")
 
 
 @attrs.define
-class EntryDtoEntry:
-    """Entry for EntryDto.entry."""
+class WithAdditionalProperties:
+    """Base class with additional properties."""
 
     additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
 
@@ -23,11 +24,11 @@ class EntryDtoEntry:
     @classmethod
     def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
-        d = src_dict.copy()
-        entry_dto_entry = cls()
+        d = copy.deepcopy(src_dict)
+        dto = cls()
 
-        entry_dto_entry.additional_properties = d
-        return entry_dto_entry
+        dto.additional_properties = d
+        return dto
 
     @property
     def additional_keys(self) -> list[str]:
