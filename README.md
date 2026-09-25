@@ -11,6 +11,21 @@ To add this package to your project
 uv add git+https://github.com/spraakbanken/karp-api-client-py
 ```
 
+### Optional cli
+
+By installing the optional group `cli`, you can also use this library as a cli `karp-client`.
+
+```shell
+pip install 'git+https://github.com/spraakbanken/karp-api-client-py[cli]'
+```
+
+Call the API:
+
+```shell
+karp-client <RESOURCE1> [<RESOURCE2>...] --size <MAX_NUM_HITS>
+```
+
+
 ## Usage
 
 Use this library in sync code:

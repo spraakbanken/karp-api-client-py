@@ -1,13 +1,13 @@
 """Query Response."""
 
-from typing import TYPE_CHECKING, Any, Optional, TypeVar
+import typing as t
 
 import attrs
 
-if TYPE_CHECKING:
-    from karp_api_client.models.entry_dto import EntryDto
+if t.TYPE_CHECKING:
+    from karp_api_client.models.red.entry_dto import EntryDto
 
-T = TypeVar("T", bound="QueryResponse")
+T = t.TypeVar("T", bound="QueryResponse")
 
 
 @attrs.define
@@ -16,14 +16,14 @@ class QueryResponse:
 
     total: int
     hits: list["EntryDto"]
-    distribution: Optional[dict[str, int]]
-    additional_properties: dict[str, Any] = attrs.field(init=False, factory=dict)
+    distribution: dict[str, int] | None
+    additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """Serialize to dict."""
         hits = [entry.to_dict() for entry in self.hits]
 
-        field_dict: dict[str, Any] = {
+        field_dict: dict[str, t.Any] = {
             "total": self.total,
             "distibution": self.distribution,
         }
@@ -38,9 +38,9 @@ class QueryResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
-        from karp_api_client.models.entry_dto import EntryDto  # noqa: PLC0415
+        from karp_api_client.models.red.entry_dto import EntryDto  # noqa: PLC0415
 
         d = src_dict.copy()
         hits = [EntryDto.from_dict(entry) for entry in d.pop("hits")]
@@ -61,11 +61,11 @@ class QueryResponse:
         """Get additional property keys."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> t.Any:
         """Get an additional property by 'key'."""
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: t.Any) -> None:
         """Set an additional property by 'key'."""
         self.additional_properties[key] = value
 

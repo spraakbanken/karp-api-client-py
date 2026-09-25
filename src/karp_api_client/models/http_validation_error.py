@@ -1,17 +1,17 @@
 """Http Validation Error."""
 
-from typing import TYPE_CHECKING, Any, TypeVar, Union
+import typing as t
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
 from karp_api_client.shared import UNSET, Unset
 
-if TYPE_CHECKING:
+if t.TYPE_CHECKING:
     from karp_api_client.models.validation_error import ValidationError
 
 
-T = TypeVar("T", bound="HttpValidationError")
+T = t.TypeVar("T", bound="HttpValidationError")
 
 
 @_attrs_define
@@ -22,19 +22,19 @@ class HttpValidationError:
     detail (Union[Unset, list['ValidationError']]):
     """
 
-    detail: Union[Unset, list["ValidationError"]] = UNSET
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+    detail: Unset | list["ValidationError"] = UNSET
+    additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """Serizalize this entity to dict."""
-        detail: Union[Unset, list[dict[str, Any]]] = UNSET
+        detail: Unset | list[dict[str, t.Any]] = UNSET
         if not isinstance(self.detail, Unset):
             detail = []
             for detail_item_data in self.detail:
                 detail_item = detail_item_data.to_dict()
                 detail.append(detail_item)
 
-        field_dict: dict[str, Any] = {}
+        field_dict: dict[str, t.Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update({})
         if detail is not UNSET:
@@ -43,7 +43,7 @@ class HttpValidationError:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
         from karp_api_client.models.validation_error import ValidationError  # noqa: PLC0415
 
@@ -64,14 +64,14 @@ class HttpValidationError:
 
     @property
     def additional_keys(self) -> list[str]:
-        """List of any additional keys."""
+        """List of t.any additional keys."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> t.Any:
         """Get an addtional property."""
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: t.Any) -> None:
         """Set additional property by 'key'."""
         self.additional_properties[key] = value
 

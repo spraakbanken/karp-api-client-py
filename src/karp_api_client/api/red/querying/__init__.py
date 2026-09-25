@@ -1,6 +1,6 @@
-"""Querying part of Karp API."""
+"""Querying part of Karp Red API."""
 
-from karp_api_client.api.querying.query import (
+from karp_api_client.api.red.querying.query import (
     QueryOptions,
     QueryResponse,
     query_async,

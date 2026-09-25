@@ -1,16 +1,14 @@
-"""Client for accessing Karp API."""
+"""Base client for accessing Karp API:s."""
 
-import os
 import ssl
-import typing
-from typing import Any, Optional, TypeVar, Union
+import typing as t
 
 try:
-    from typing import Self  # type: ignore [attr-defined]
+    from typing import Self  # ty: ignore[unresolved-import]
 except ImportError:
     from typing_extensions import Self
 import attrs
-import httpx
+import httpx2 as httpx
 
 
 class ApiKeyAuth(httpx.Auth):
@@ -20,13 +18,10 @@ class ApiKeyAuth(httpx.Auth):
         """Construct a ApiKeyAuth with the given token."""
         self.api_token = token
 
-    def auth_flow(self, request: httpx.Request) -> typing.Generator[httpx.Request, httpx.Response, None]:
+    def auth_flow(self, request: httpx.Request) -> t.Generator[httpx.Request, httpx.Response, None]:
         """Update url with api_key=token."""
         request.url = request.url.copy_with(api_key=self.api_token)
         yield request
-
-
-T = TypeVar("T", bound="ClientBase")
 
 
 @attrs.define(slots=False)
@@ -34,15 +29,15 @@ class ClientBase:
     """Base class for clients."""
 
     raise_on_unexpected_status: bool = attrs.field(default=False, kw_only=True)
-    _base_url: str = attrs.field(default="https://spraakbanken4.it.gu.se/karp/v7", alias="base_url")
+    _base_url: str = attrs.field(alias="base_url")
     _cookies: dict[str, str] = attrs.field(factory=dict, kw_only=True, alias="cookies")
     _headers: dict[str, str] = attrs.field(factory=dict, kw_only=True, alias="headers")
-    _timeout: Optional[httpx.Timeout] = attrs.field(default=None, kw_only=True, alias="timeout")
-    _verify_ssl: Union[str, bool, ssl.SSLContext] = attrs.field(default=True, kw_only=True, alias="verify_ssl")
+    _timeout: httpx.Timeout | None = attrs.field(default=None, kw_only=True, alias="timeout")
+    _verify_ssl: str | bool | ssl.SSLContext = attrs.field(default=True, kw_only=True, alias="verify_ssl")
     _follow_redirects: bool = attrs.field(default=False, kw_only=True, alias="follow_redirects")
-    _httpx_args: dict[str, Any] = attrs.field(factory=dict, kw_only=True, alias="httpx_args")
-    _client: Optional[httpx.Client] = attrs.field(default=None, init=False)
-    _async_client: Optional[httpx.AsyncClient] = attrs.field(default=None, init=False)
+    _httpx_args: dict[str, t.Any] = attrs.field(factory=dict, kw_only=True, alias="httpx_args")
+    _client: httpx.Client | None = attrs.field(default=None, init=False)
+    _async_client: httpx.AsyncClient | None = attrs.field(default=None, init=False)
 
     def set_base_url(self, base_url: str) -> Self:
         """Update the base_url for this Client."""
@@ -89,6 +84,7 @@ class ClientBase:
 
     # @abc.abstractmethod
     def _create_sync_client(self) -> httpx.Client:
+        print(f"Creating httpx.Client with base_url='{self._base_url}'")  # noqa: T201
         return httpx.Client(
             base_url=self._base_url,
             cookies=self._cookies,
@@ -104,7 +100,7 @@ class ClientBase:
         self.get_sync_client().__enter__()
         return self
 
-    def __exit__(self, *args: Any, **kwargs: Any) -> None:
+    def __exit__(self, *args: t.Any, **kwargs: t.Any) -> None:
         """Exit a context manager for internal httpx.Client (see httpx docs)."""
         self.get_sync_client().__exit__(*args, **kwargs)
 
@@ -138,41 +134,6 @@ class ClientBase:
         await self.get_async_client().__aenter__()
         return self
 
-    async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
+    async def __aexit__(self, *args: t.Any, **kwargs: t.Any) -> None:
         """Exit a context manager for underlying httpx.AsyncClient (see httpx docs)."""
         await self.get_async_client().__aexit__(*args, **kwargs)
-
-
-@attrs.define(slots=False)
-class Client(ClientBase):
-    """Client to use for unauthenticated API calls."""
-
-
-@attrs.define(slots=False)
-class AuthenticatedClient(ClientBase):
-    """Client to use for authenticated API calls."""
-
-    _token: str = attrs.field(kw_only=True, alias="token")
-
-    def _create_sync_client(self) -> httpx.Client:
-        client = super()._create_sync_client()
-        client.auth = ApiKeyAuth(self._token)
-        return client
-
-    def _create_async_client(self) -> httpx.AsyncClient:
-        client = super()._create_async_client()
-        client.auth = ApiKeyAuth(self._token)
-        return client
-
-    @classmethod
-    def from_env(cls) -> "AuthenticatedClient":
-        """Create an AuthenticatedClient from env."""
-        token = None
-        if (token_from_env := os.environ.get("KARP_API_CLIENT_API_TOKEN")) or (
-            token_from_env := os.environ.get("KARP_API_TOKEN")
-        ):
-            token = token_from_env
-
-        if token is None:
-            raise RuntimeError("must set KARP_API_CLIENT_API_TOKEN or KARP_API_TOKEN")
-        return cls(token=token)

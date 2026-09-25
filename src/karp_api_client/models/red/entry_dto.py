@@ -1,17 +1,20 @@
 """EntryDto model."""
 
-from typing import TYPE_CHECKING, Any, TypeVar, Union, cast
+import typing as t
 
+import attrs
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
+from karp_api_client.models import shared
 from karp_api_client.shared import UNSET, Unset
 
-if TYPE_CHECKING:
-    from karp_api_client.models.entry_dto_entry import EntryDtoEntry
+T = t.TypeVar("T", bound="EntryDto")
 
 
-T = TypeVar("T", bound="EntryDto")
+@attrs.define
+class EntryDtoEntry(shared.WithAdditionalProperties):
+    """Entry for EntryDto.entry."""
 
 
 @_attrs_define
@@ -34,12 +37,12 @@ class EntryDto:
     last_modified: float
     last_modified_by: str
     resource: str
-    entry: "EntryDtoEntry"
-    message: Union[Unset, str, None] = UNSET
-    discarded: Union[Unset, bool] = False
-    additional_properties: dict[str, Any] = _attrs_field(init=False, factory=dict)
+    entry: EntryDtoEntry
+    message: Unset | str | None = UNSET
+    discarded: Unset | bool = False
+    additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """Serialize this object to dict."""
         id_ = self.id
 
@@ -53,12 +56,12 @@ class EntryDto:
 
         entry = self.entry.to_dict()
 
-        message: Union[Unset, str, None]
+        message: Unset | str | None
         message = UNSET if isinstance(self.message, Unset) else self.message
 
         discarded = self.discarded
 
-        field_dict: dict[str, Any] = {}
+        field_dict: dict[str, t.Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
@@ -78,9 +81,9 @@ class EntryDto:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
-        from karp_api_client.models.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
+        from karp_api_client.models.red.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
 
         d = src_dict.copy()
         id_ = d.pop("id")
@@ -95,12 +98,12 @@ class EntryDto:
 
         entry = EntryDtoEntry.from_dict(d.pop("entry"))
 
-        def _parse_message(data: object) -> Union[Unset, str, None]:
+        def _parse_message(data: object) -> Unset | str | None:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return cast(Union[Unset, str, None], data)
+            return t.cast(Unset | str | None, data)
 
         message = _parse_message(d.pop("message", UNSET))
 
@@ -125,11 +128,11 @@ class EntryDto:
         """Return any additional keys."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> t.Any:
         """Get an additional property by key."""
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: t.Any) -> None:
         """Set an additional property."""
         self.additional_properties[key] = value
 

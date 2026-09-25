@@ -5,8 +5,8 @@ from typing import TypeVar
 import anyio
 from returns.interfaces.specific.ioresult import IOResultLike2
 
-from karp_api_client import Client, dsl
-from karp_api_client.api import querying
+from karp_api_client import RedClient, dsl
+from karp_api_client.api.red import querying
 from karp_api_client.shared import Response
 
 _IoKind = TypeVar("_IoKind", bound=IOResultLike2)
@@ -31,7 +31,7 @@ _IoKind = TypeVar("_IoKind", bound=IOResultLike2)
 
 
 async def main() -> None:  # noqa: D103
-    client = Client()
+    client = RedClient()
 
     async with client as client:
         q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")

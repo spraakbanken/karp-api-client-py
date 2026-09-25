@@ -1,44 +1,45 @@
-"""Model for the entry in EntryDto."""
+"""Shared classes."""
 
-from typing import Any, Optional, TypeVar
+import copy
+import typing as t
 
 import attrs
 
-T = TypeVar("T", bound="EntryDtoEntry")
+T = t.TypeVar("T", bound="WithAdditionalProperties")
 
 
 @attrs.define
-class EntryDtoEntry:
-    """Entry for EntryDto.entry."""
+class WithAdditionalProperties:
+    """Base class with additional properties."""
 
-    additional_properties: dict[str, Any] = attrs.field(init=False, factory=dict)
+    additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self) -> dict[str, t.Any]:
         """Serialize as dict."""
-        field_dict: dict[str, Any] = {}
+        field_dict: dict[str, t.Any] = {}
         field_dict.update(self.additional_properties)
 
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, Any]) -> T:
+    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
         """Deserialize from dict."""
-        d = src_dict.copy()
-        entry_dto_entry = cls()
+        d = copy.deepcopy(src_dict)
+        dto = cls()
 
-        entry_dto_entry.additional_properties = d
-        return entry_dto_entry
+        dto.additional_properties = d
+        return dto
 
     @property
     def additional_keys(self) -> list[str]:
         """Get keys of additional properties."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> Any:
+    def __getitem__(self, key: str) -> t.Any:
         """Get additional property by 'key'."""
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: Any) -> None:
+    def __setitem__(self, key: str, value: t.Any) -> None:
         """Set additional property by 'key'."""
         self.additional_properties[key] = value
 
@@ -50,7 +51,7 @@ class EntryDtoEntry:
         """Check if additional properties contains 'key'."""
         return key in self.additional_properties
 
-    def get(self, key: str, default=None) -> Optional[Any]:  # noqa: ANN001
+    def get(self, key: str, default=None) -> t.Any | None:  # noqa: ANN001
         """Look up additional property by 'key' and fall back to default if not present."""
         try:
             return self.additional_properties[key]
