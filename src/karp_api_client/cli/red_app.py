@@ -8,7 +8,7 @@ import json_arrays
 import typer
 from returns.result import Failure, Success
 
-from karp_api_client import Client
+from karp_api_client import RedClient
 from karp_api_client.api.red import querying
 
 app = typer.Typer(help="Karp Red API client")
@@ -24,7 +24,7 @@ def query(
     if output is None:
         output = f"karp-query-{datetime.datetime.now()}.jsonl"
         print(f"Output will be written to '{output}'", file=sys.stderr)  # noqa: T201
-    client = Client()
+    client = RedClient()
     response = querying.query_sync(",".join(resources), client=client, query_options=querying.QueryOptions(size=size))
 
     match response:

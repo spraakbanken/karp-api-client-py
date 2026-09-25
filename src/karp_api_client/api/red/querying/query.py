@@ -10,7 +10,7 @@ import httpx2 as httpx
 from httpx2 import codes
 from returns.result import Failure, Result, Success
 
-from karp_api_client import AuthenticatedClient, Client, dsl, errors
+from karp_api_client import AuthenticatedRedClient, RedClient, dsl, errors
 from karp_api_client.models.http_validation_error import HttpValidationError
 from karp_api_client.models.red.query_response import QueryResponse
 from karp_api_client.shared import Response
@@ -54,20 +54,20 @@ class QueryOptions:
 def query_sync(
     resources: str | Sequence[str],
     *,
-    client: Client | AuthenticatedClient,
+    client: RedClient | AuthenticatedRedClient,
     query_options: QueryOptions | None = None,
 ) -> Result[Response[QueryResponse], Response[HttpValidationError | None]]:
     """Query.
 
     Args:
         resources : sequence of resources as strings, or as a commas-separatade string.
-        client : the client to use for this API call
+        client : the Redclient to use for this API call
         query_options : optional query options
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code
-                                and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+                                and RedClient.raise_on_unexpected_status is True.
+                                httpx.TimeoutException: If the request takes longer than RedClient.timeout.
 
     Returns:
         Response[Union[EntryAddResponse, HttpValidationError]]
@@ -84,20 +84,20 @@ def query_sync(
 async def query_async(
     resources: str | Sequence[str],
     *,
-    client: Client | AuthenticatedClient,
+    client: RedClient | AuthenticatedRedClient,
     query_options: QueryOptions | None = None,
 ) -> Result[Response[QueryResponse], Response[HttpValidationError | None]]:
     """Query.
 
     Args:
         resources : sequence of resources as strings, or as a commas-separatade string.
-        client : the client to use for this API call
+        client : the Redclient to use for this API call
         query_options : optional query options
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code
-                                and Client.raise_on_unexpected_status is True.
-        httpx.TimeoutException: If the request takes longer than Client.timeout.
+                                and RedClient.raise_on_unexpected_status is True.
+                                httpx.TimeoutException: If the request takes longer than RedClient.timeout.
 
     Returns:
         Response[Union[EntryAddResponse, HttpValidationError]]
@@ -126,7 +126,7 @@ def _get_query_kwargs(resources: Sequence[str] | str, *, query_options: QueryOpt
 
 
 def _build_query_response(
-    *, client: Client | AuthenticatedClient, response: httpx.Response
+    *, client: RedClient | AuthenticatedRedClient, response: httpx.Response
 ) -> Result[Response[QueryResponse], Response[HttpValidationError | None]]:
     return (
         _parse_query_response(client=client, response=response)
@@ -150,7 +150,7 @@ def _build_query_response(
 
 
 def _parse_query_response(
-    *, client: Client | AuthenticatedClient, response: httpx.Response
+    *, client: RedClient | AuthenticatedRedClient, response: httpx.Response
 ) -> Result[QueryResponse, HttpValidationError | None]:
     if response.status_code == codes.OK:
         response_200 = QueryResponse.from_dict(response.json())

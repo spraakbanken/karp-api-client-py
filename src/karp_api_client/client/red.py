@@ -1,4 +1,4 @@
-"""Client for accessing Karp API."""
+"""Client for accessing Karp Red API."""
 
 import os
 import ssl
@@ -33,7 +33,7 @@ class ClientBase:
     """Base class for clients."""
 
     raise_on_unexpected_status: bool = attrs.field(default=False, kw_only=True)
-    _base_url: str = attrs.field(default="https://spraakbanken4.it.gu.se/karp/v7", alias="base_url")
+    _base_url: str = attrs.field(alias="base_url")
     _cookies: dict[str, str] = attrs.field(factory=dict, kw_only=True, alias="cookies")
     _headers: dict[str, str] = attrs.field(factory=dict, kw_only=True, alias="headers")
     _timeout: httpx.Timeout | None = attrs.field(default=None, kw_only=True, alias="timeout")
@@ -88,6 +88,7 @@ class ClientBase:
 
     # @abc.abstractmethod
     def _create_sync_client(self) -> httpx.Client:
+        print(f"Creating httpx.Client with base_url='{self._base_url}'")  # noqa: T201
         return httpx.Client(
             base_url=self._base_url,
             cookies=self._cookies,
@@ -143,12 +144,14 @@ class ClientBase:
 
 
 @attrs.define(slots=False)
-class Client(ClientBase):
+class RedClient(ClientBase):
     """Client to use for unauthenticated API calls."""
+
+    _base_url: str = attrs.field(default="https://spraakbanken4.it.gu.se/karp/v7", alias="base_url")
 
 
 @attrs.define(slots=False)
-class AuthenticatedClient(ClientBase):
+class AuthenticatedRedClient(RedClient):
     """Client to use for authenticated API calls."""
 
     _token: str = attrs.field(kw_only=True, alias="token")
@@ -164,7 +167,7 @@ class AuthenticatedClient(ClientBase):
         return client
 
     @classmethod
-    def from_env(cls) -> "AuthenticatedClient":
+    def from_env(cls) -> "AuthenticatedRedClient":
         """Create an AuthenticatedClient from env."""
         token = None
         if (token_from_env := os.environ.get("KARP_API_CLIENT_API_TOKEN")) or (
