@@ -87,6 +87,7 @@ typing-extensions==4.16.0 ; python_full_version < '3.12' or sys_platform != 'ems
     # via
     #   anyio
     #   httpx2
+    #   karp-api-client
     #   returns
     #   rich
     #   typer
