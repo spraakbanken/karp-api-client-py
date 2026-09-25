@@ -3,6 +3,7 @@
 import datetime
 import sys
 import typing as t
+from pathlib import Path
 
 import json_arrays
 import typer
@@ -17,13 +18,19 @@ app = typer.Typer(help="Karp Red API client")
 @app.command()
 def query(
     resources: list[str],
-    output: t.Annotated[str | None, typer.Option(help="Output to this path")] = None,
+    output: t.Annotated[Path | None, typer.Option(help="Output to this path")] = None,
     size: t.Annotated[int | None, typer.Option(help="The number of hits requested")] = None,
 ) -> None:
     """Query the given resources."""
+    datetime_now = datetime.datetime.now()
     if output is None:
-        output = f"karp-query-{datetime.datetime.now()}.jsonl"
-        print(f"Output will be written to '{output}'", file=sys.stderr)  # noqa: T201
+        output = Path(f"output/karp-query-{datetime_now.strftime('%Y-%m-%dT%H:%M:%S')}.jsonl")
+    elif output.is_dir():
+        output /= f"karp-query-{datetime_now.strftime('%Y-%m-%dT%H:%M:%S')}.jsonl"
+
+    print(f"Output will be written to '{output}'", file=sys.stderr)  # noqa: T201
+    output.parent.mkdir(exist_ok=True, parents=True)
+
     client = RedClient()
     response = querying.query_sync(",".join(resources), client=client, query_options=querying.QueryOptions(size=size))
 
