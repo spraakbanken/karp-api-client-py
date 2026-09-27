@@ -35,3 +35,10 @@ build-backend = "uv_build"
 
 [tool.uv]
 exclude-newer = "P7D"
+
+[tool.uv.workspace]
+members = [
+    "karp-red-api-client",
+    "karp-search-api-client",
+    "karp-api-core",
+]
