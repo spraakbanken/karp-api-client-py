@@ -1,0 +1,57 @@
+"""Shared classes."""
+
+import copy
+import typing as t
+
+import attrs
+
+
+@attrs.define
+class WithAdditionalProperties:
+    """Base class with additional properties."""
+
+    additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
+
+    def to_dict(self) -> dict[str, t.Any]:
+        """Serialize as dict."""
+        field_dict: dict[str, t.Any] = {}
+        field_dict.update(self.additional_properties)
+
+        return field_dict
+
+    @classmethod
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
+        """Deserialize from dict."""
+        d = copy.deepcopy(src_dict)
+        dto = cls()
+
+        dto.additional_properties = d
+        return dto
+
+    @property
+    def additional_keys(self) -> list[str]:
+        """Get keys of additional properties."""
+        return list(self.additional_properties.keys())
+
+    def __getitem__(self, key: str) -> t.Any:
+        """Get additional property by 'key'."""
+        return self.additional_properties[key]
+
+    def __setitem__(self, key: str, value: t.Any) -> None:
+        """Set additional property by 'key'."""
+        self.additional_properties[key] = value
+
+    def __delitem__(self, key: str) -> None:
+        """Delete additional property by 'key'."""
+        del self.additional_properties[key]
+
+    def __contains__(self, key: str) -> bool:
+        """Check if additional properties contains 'key'."""
+        return key in self.additional_properties
+
+    def get(self, key: str, default=None) -> t.Any | None:  # noqa: ANN001
+        """Look up additional property by 'key' and fall back to default if not present."""
+        try:
+            return self.additional_properties[key]
+        except KeyError:
+            return default

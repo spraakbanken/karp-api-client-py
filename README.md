@@ -11,6 +11,21 @@ To add this package to your project
 uv add git+https://github.com/spraakbanken/karp-api-client-py
 ```
 
+### Optional cli
+
+By installing the optional group `cli`, you can also use this library as a cli `karp-client`.
+
+```shell
+pip install 'git+https://github.com/spraakbanken/karp-api-client-py[cli]'
+```
+
+Call the API:
+
+```shell
+karp-client <RESOURCE1> [<RESOURCE2>...] --size <MAX_NUM_HITS>
+```
+
+
 ## Usage
 
 Use this library in sync code:
@@ -27,9 +42,7 @@ def main():
     client = Client()
 
     with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(
-            field="baseform", value="agin"
-        )
+        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
         response = querying.query_sync(
             "schlyter,soederwall,soederwall-supp",
             client=client,
@@ -72,9 +85,7 @@ async def main():
     client = Client()
 
     async with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(
-            field="baseform", value="agin"
-        )
+        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
         response = await querying.query_async(
             "schlyter,soederwall,soederwall-supp",
             client=client,
