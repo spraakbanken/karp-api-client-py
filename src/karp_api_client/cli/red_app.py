@@ -7,10 +7,9 @@ from pathlib import Path
 
 import json_arrays
 import typer
+from karp_red_api_client import RedClient
+from karp_red_api_client.api import querying
 from returns.result import Failure, Success
-
-from karp_api_client import RedClient
-from karp_api_client.api.red import querying
 
 app = typer.Typer(help="Karp Red API client")
 

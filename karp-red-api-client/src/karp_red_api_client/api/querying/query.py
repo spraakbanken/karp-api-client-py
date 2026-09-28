@@ -7,13 +7,13 @@ from urllib import parse
 
 import attrs
 import httpx2 as httpx
-from httpx2 import codes
+from karp_api_core import status_codes
 from returns.result import Failure, Result, Success
 
-from karp_api_client import AuthenticatedRedClient, RedClient, dsl, errors
-from karp_api_client.models.http_validation_error import HttpValidationError
-from karp_api_client.models.red.query_response import QueryResponse
-from karp_api_client.shared import Response
+from karp_red_api_client import AuthenticatedRedClient, RedClient, dsl, errors
+from karp_red_api_client.models import HttpValidationError
+from karp_red_api_client.models.query_response import QueryResponse
+from karp_red_api_client.responses import Response
 
 
 @attrs.define
@@ -152,11 +152,11 @@ def _build_query_response(
 def _parse_query_response(
     *, client: RedClient | AuthenticatedRedClient, response: httpx.Response
 ) -> Result[QueryResponse, HttpValidationError | None]:
-    if response.status_code == codes.OK:
+    if response.status_code == status_codes.OK:
         response_200 = QueryResponse.from_dict(response.json())
 
         return Success(response_200)
-    if response.status_code == codes.UNPROCESSABLE_ENTITY:
+    if response.status_code == status_codes.UNPROCESSABLE_ENTITY:
         response_422 = HttpValidationError.from_dict(response.json())
         return Failure(response_422)
     if client.raise_on_unexpected_status:

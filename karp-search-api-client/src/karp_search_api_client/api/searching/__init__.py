@@ -1,6 +1,6 @@
 """Searching part of Karp Search API."""
 
-from karp_api_client.api.search.searching.search import (
+from karp_search_api_client.api.searching.search import (
     SearchOptions,
     SearchResponse,
     search_async,

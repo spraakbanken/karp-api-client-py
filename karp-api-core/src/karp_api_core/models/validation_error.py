@@ -5,8 +5,6 @@ import typing as t
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = t.TypeVar("T", bound="ValidationError")
-
 
 @_attrs_define
 class ValidationError:
@@ -48,7 +46,7 @@ class ValidationError:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
         d = src_dict.copy()
         loc = []

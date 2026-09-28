@@ -3,11 +3,17 @@ name = "karp-api-client"
 version = "0.1.4"
 description = "Client for accessing Karp API."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [
   { name = "Språkbanken", email = "sb-info@svenska.gu.se" },
 ]
-dependencies = ["attrs>=24.3.0", "httpx2>=2.13.0", "returns>=0.23.0", "typing_extensions>=4.12.2; python_full_version < '3.11'"]
+dependencies = [
+  "attrs>=24.3.0",
+  "httpx2>=2.13.0",
+  "karp-red-api-client",
+  "karp-search-api-client",
+  "returns>=0.23.0",
+]
 
 [project.scripts]
 karp-client = "karp_api_client.cli.app:app"
@@ -38,7 +44,11 @@ exclude-newer = "P7D"
 
 [tool.uv.workspace]
 members = [
-    "karp-red-api-client",
-    "karp-search-api-client",
-    "karp-api-core",
+  "karp-red-api-client",
+  "karp-search-api-client",
+  "karp-api-core",
 ]
+
+[tool.uv.sources]
+karp-red-api-client = { workspace = true }
+karp-search-api-client = { workspace = true }

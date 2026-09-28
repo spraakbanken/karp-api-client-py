@@ -1,4 +1,4 @@
-from karp_api_client.dsl import Equals, Or
+from karp_red_api_client.dsl import Equals, Or
 
 
 def test_dsl(snapshot) -> None:  # noqa: ANN001

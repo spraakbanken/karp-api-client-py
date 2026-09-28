@@ -1,7 +1,8 @@
 """Models used by Karp Red API."""
 
-from .entry_dto import EntryDto
-from .entry_dto_entry import EntryDtoEntry
+from karp_api_core.models.http_validation_error import HttpValidationError
+
+from .entry_dto import EntryDto, EntryDtoEntry
 from .query_response import QueryResponse
 
-__all__ = ["EntryDto", "EntryDtoEntry", "QueryResponse"]
+__all__ = ["EntryDto", "EntryDtoEntry", "HttpValidationError", "QueryResponse"]

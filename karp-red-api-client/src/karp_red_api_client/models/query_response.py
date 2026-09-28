@@ -4,10 +4,7 @@ import typing as t
 
 import attrs
 
-if t.TYPE_CHECKING:
-    from karp_api_client.models.red.entry_dto import EntryDto
-
-T = t.TypeVar("T", bound="QueryResponse")
+from karp_red_api_client.models.entry_dto import EntryDto
 
 
 @attrs.define
@@ -38,10 +35,8 @@ class QueryResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
-        from karp_api_client.models.red.entry_dto import EntryDto  # noqa: PLC0415
-
         d = src_dict.copy()
         hits = [EntryDto.from_dict(entry) for entry in d.pop("hits")]
         total = d.pop("total")

@@ -3,17 +3,13 @@
 import typing as t
 
 import attrs
+from karp_api_core.models import mixins
 
-from karp_api_client.models.shared import WithAdditionalProperties
-
-if t.TYPE_CHECKING:
-    from karp_api_client.models.search.hit_entry_dto import HitEntryDto
-
-T = t.TypeVar("T", bound="SearchResponse")
+from karp_search_api_client.models.hit_entry_dto import HitEntryDto
 
 
 @attrs.define
-class ResourceHits(WithAdditionalProperties):
+class ResourceHits(mixins.WithAdditionalProperties):
     """ResourceHits."""
 
 
@@ -21,8 +17,8 @@ class ResourceHits(WithAdditionalProperties):
 class SearchResponse:
     """Response returned from query."""
 
-    hits: list["HitEntryDto"]
-    resource_hits: ResourceHits
+    hits: list[HitEntryDto]
+    resource_hits: ResourceHits = attrs.field(alias="resourceHits")
     resource_order: list[str] = attrs.field(alias="resourceOrder")
     total: int
     additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
@@ -48,19 +44,20 @@ class SearchResponse:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
-        from karp_api_client.models.red.entry_dto import EntryDto  # noqa: PLC0415
-
         d = src_dict.copy()
-        hits = [EntryDto.from_dict(entry) for entry in d.pop("hits")]
+        hits = [HitEntryDto.from_dict(entry) for entry in d.pop("hits")]
+        resource_hits_dict = d.pop("resourceHits", None) or d.pop("resource_hits")
+        resource_hits = ResourceHits.from_dict(resource_hits_dict)
+        resource_order = d.pop("resourceOrder", None) or d.pop("resource_order")
         total = d.pop("total")
-        distribution = d.pop("distribution")
 
         query_response = cls(
-            total=total,
             hits=hits,
-            distribution=distribution,
+            resourceHits=resource_hits,
+            resourceOrder=resource_order,
+            total=total,
         )
 
         query_response.additional_properties = d

@@ -3,11 +3,10 @@
 from typing import TypeVar
 
 import anyio
+from karp_red_api_client import RedClient, dsl
+from karp_red_api_client.api import querying
+from karp_red_api_client.responses import Response
 from returns.interfaces.specific.ioresult import IOResultLike2
-
-from karp_api_client import RedClient, dsl
-from karp_api_client.api.red import querying
-from karp_api_client.shared import Response
 
 _IoKind = TypeVar("_IoKind", bound=IOResultLike2)
 

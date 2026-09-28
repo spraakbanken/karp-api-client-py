@@ -4,7 +4,12 @@ import copy
 import typing as t
 from collections.abc import Callable
 
-from karp_red_api_client.value_objects import UNSET, Unset
+from karp_api_client.shared import UNSET, Unset
+
+try:
+    from typing import Self  # ty: ignore[unresolved-import]
+except ImportError:
+    from typing_extensions import Self
 
 
 class Query:
@@ -29,7 +34,7 @@ class Query:
             return other.__ror__(self)
         return Or(self, other)
 
-    def _clone(self) -> t.Self:
+    def _clone(self) -> Self:
         c = self.__class__()
         for attr in self._params:
             c._params[attr] = copy.copy(self._params[attr])
@@ -79,7 +84,7 @@ class Or(Query):
         """Construct an Or query by combining two queries."""
         super().__init__(ors=list(queries))
 
-    def __or__(self, other: "Query") -> t.Self:
+    def __or__(self, other: "Query") -> "Or":
         """Combine other query with or."""
         q = self._clone()
         if isinstance(other, Or):

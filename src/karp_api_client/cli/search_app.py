@@ -6,10 +6,9 @@ import typing as t
 
 import json_arrays
 import typer
+from karp_search_api_client import SearchClient
+from karp_search_api_client.api import searching
 from returns.result import Failure, Success
-
-from karp_api_client import SearchClient
-from karp_api_client.api.search import searching
 
 app = typer.Typer(help="Karp Search API client")
 

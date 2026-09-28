@@ -5,13 +5,8 @@ import typing as t
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-from karp_api_client.shared import UNSET, Unset
-
-if t.TYPE_CHECKING:
-    from karp_api_client.models.validation_error import ValidationError
-
-
-T = t.TypeVar("T", bound="HttpValidationError")
+from karp_api_core.models.validation_error import ValidationError
+from karp_api_core.value_objects import UNSET, Unset
 
 
 @_attrs_define
@@ -19,10 +14,10 @@ class HttpValidationError:
     """Http Validation Error.
 
     Attributes:
-    detail (Union[Unset, list['ValidationError']]):
+    detail (Union[Unset, list[ValidationError]]):
     """
 
-    detail: Unset | list["ValidationError"] = UNSET
+    detail: Unset | list[ValidationError] = UNSET
     additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, t.Any]:
@@ -43,10 +38,8 @@ class HttpValidationError:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
-        from karp_api_client.models.validation_error import ValidationError  # noqa: PLC0415
-
         d = src_dict.copy()
         detail = []
         detail_ = d.pop("detail", UNSET)

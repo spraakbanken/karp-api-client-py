@@ -5,8 +5,6 @@ import typing as t
 
 import attrs
 
-T = t.TypeVar("T", bound="WithAdditionalProperties")
-
 
 @attrs.define
 class WithAdditionalProperties:
@@ -22,7 +20,7 @@ class WithAdditionalProperties:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
         d = copy.deepcopy(src_dict)
         dto = cls()

@@ -5,10 +5,7 @@ import typing as t
 
 import attrs
 import httpx2 as httpx
-
-from karp_api_client.client.base import ApiKeyAuth, ClientBase
-
-T = t.TypeVar("T", bound="ClientBase")
+from karp_api_core.client_base import ApiKeyAuth, ClientBase
 
 
 @attrs.define(slots=False)
@@ -35,7 +32,7 @@ class AuthenticatedSearchClient(SearchClient):
         return client
 
     @classmethod
-    def from_env(cls) -> "AuthenticatedSearchClient":
+    def from_env(cls) -> t.Self:
         """Create an AuthenticatedClient from env."""
         token = None
         if (

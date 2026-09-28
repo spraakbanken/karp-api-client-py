@@ -2,12 +2,11 @@
 
 import sys
 
+from karp_red_api_client import RedClient, dsl
+from karp_red_api_client.api import querying
+from karp_red_api_client.models import QueryResponse
+from karp_red_api_client.responses import Response
 from returns.result import Failure, Success
-
-from karp_api_client import RedClient, dsl
-from karp_api_client.api.red import querying
-from karp_api_client.models.red import QueryResponse
-from karp_api_client.shared import Response
 
 
 def main() -> None:  # noqa: D103

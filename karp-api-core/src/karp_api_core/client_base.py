@@ -3,10 +3,6 @@
 import ssl
 import typing as t
 
-try:
-    from typing import Self  # ty: ignore[unresolved-import]
-except ImportError:
-    from typing_extensions import Self
 import attrs
 import httpx2 as httpx
 
@@ -39,12 +35,12 @@ class ClientBase:
     _client: httpx.Client | None = attrs.field(default=None, init=False)
     _async_client: httpx.AsyncClient | None = attrs.field(default=None, init=False)
 
-    def set_base_url(self, base_url: str) -> Self:
+    def set_base_url(self, base_url: str) -> t.Self:
         """Update the base_url for this Client."""
         self._base_url = base_url
         return self
 
-    def with_headers(self, headers: dict[str, str]) -> Self:
+    def with_headers(self, headers: dict[str, str]) -> t.Self:
         """Get a new client matching this one with additional headers."""
         if self._client is not None:
             self._client.headers.update(headers)
@@ -52,7 +48,7 @@ class ClientBase:
             self._async_client.headers.update(headers)
         return attrs.evolve(self, headers={**self._headers, **headers})
 
-    def with_cookies(self, cookies: dict[str, str]) -> Self:
+    def with_cookies(self, cookies: dict[str, str]) -> t.Self:
         """Get a new client matching this one with additional cookies."""
         if self._client is not None:
             self._client.cookies.update(cookies)
@@ -60,7 +56,7 @@ class ClientBase:
             self._async_client.cookies.update(cookies)
         return attrs.evolve(self, cookies={**self._cookies, **cookies})
 
-    def with_timeout(self, timeout: httpx.Timeout) -> Self:
+    def with_timeout(self, timeout: httpx.Timeout) -> t.Self:
         """Get a new client matching this one with a new timeout (in seconds)."""
         if self._client is not None:
             self._client.timeout = timeout
@@ -68,7 +64,7 @@ class ClientBase:
             self._async_client.timeout = timeout
         return attrs.evolve(self, timeout=timeout)
 
-    def set_sync_client(self, client: httpx.Client) -> Self:
+    def set_sync_client(self, client: httpx.Client) -> t.Self:
         """Manually set the underlying httpx.Client.
 
         **NOTE**: This will override any other settings on the client, including cookies, headers, and timeout.
@@ -95,7 +91,7 @@ class ClientBase:
             **self._httpx_args,
         )
 
-    def __enter__(self) -> Self:
+    def __enter__(self) -> t.Self:
         """Enter a context manager for self.client—you cannot enter twice (see httpx docs)."""
         self.get_sync_client().__enter__()
         return self
@@ -104,7 +100,7 @@ class ClientBase:
         """Exit a context manager for internal httpx.Client (see httpx docs)."""
         self.get_sync_client().__exit__(*args, **kwargs)
 
-    def set_async_client(self, async_client: httpx.AsyncClient) -> Self:
+    def set_async_client(self, async_client: httpx.AsyncClient) -> t.Self:
         """Manually the underlying httpx.AsyncClient.
 
         **NOTE**: This will override any other settings on the client, including cookies, headers, and timeout.
@@ -129,7 +125,7 @@ class ClientBase:
             **self._httpx_args,
         )
 
-    async def __aenter__(self) -> Self:
+    async def __aenter__(self) -> t.Self:
         """Enter a context manager for underlying httpx.AsyncClient—you cannot enter twice (see httpx docs)."""
         await self.get_async_client().__aenter__()
         return self

@@ -7,7 +7,9 @@ authors = [
     { name = "Kristoffer Andersson", email = "kristoffer.andersson@gu.se" }
 ]
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "httpx2>=2.13.0",
+]
 
 [build-system]
 requires = ["uv_build>=0.12.18,<0.13.0"]

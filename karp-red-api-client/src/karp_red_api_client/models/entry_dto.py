@@ -3,21 +3,17 @@
 import typing as t
 
 import attrs
-from attrs import define as _attrs_define
-from attrs import field as _attrs_field
+from karp_api_core.models import mixins
 
-from karp_api_client.models import shared
-from karp_api_client.shared import UNSET, Unset
-
-T = t.TypeVar("T", bound="EntryDto")
+from karp_red_api_client.value_objects import UNSET, Unset
 
 
 @attrs.define
-class EntryDtoEntry(shared.WithAdditionalProperties):
+class EntryDtoEntry(mixins.WithAdditionalProperties):
     """Entry for EntryDto.entry."""
 
 
-@_attrs_define
+@attrs.define
 class EntryDto:
     """EntryDto.
 
@@ -40,7 +36,7 @@ class EntryDto:
     entry: EntryDtoEntry
     message: Unset | str | None = UNSET
     discarded: Unset | bool = False
-    additional_properties: dict[str, t.Any] = _attrs_field(init=False, factory=dict)
+    additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
 
     def to_dict(self) -> dict[str, t.Any]:
         """Serialize this object to dict."""
@@ -81,10 +77,8 @@ class EntryDto:
         return field_dict
 
     @classmethod
-    def from_dict(cls: type[T], src_dict: dict[str, t.Any]) -> T:
+    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
         """Deserialize from dict."""
-        from karp_api_client.models.red.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
-
         d = src_dict.copy()
         id_ = d.pop("id")
 
