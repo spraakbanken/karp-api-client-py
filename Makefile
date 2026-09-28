@@ -92,12 +92,12 @@ type-check:
 .PHONY: lint
 ## lint the code
 lint:
-	${INVENV} ruff check ${PROJECT_SRC} ${tests} examples
+	${INVENV} ruff check
 
 .PHONY: lint-fix
 ## lint the code (and fix if possible)
 lint-fix:
-	${INVENV} ruff check --fix ${PROJECT_SRC} ${tests} examples
+	${INVENV} ruff check --fix
 
 part := "patch"
 ## bump the given version of the version. (Default: part="patch") Override with 'make bumpversion part=minor'
@@ -110,12 +110,12 @@ bumpversion-show:
 
 ## run formatter(s)
 fmt:
-	${INVENV} ruff format ${PROJECT_SRC} ${tests} examples
+	${INVENV} ruff format
 
 .PHONY: check-fmt
 ## check formatting
 check-fmt:
-	${INVENV} ruff format --check ${PROJECT_SRC} ${tests} examples
+	${INVENV} ruff format --check
 
 ## build distribution
 build:

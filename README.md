@@ -42,9 +42,7 @@ def main():
     client = Client()
 
     with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(
-            field="baseform", value="agin"
-        )
+        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
         response = querying.query_sync(
             "schlyter,soederwall,soederwall-supp",
             client=client,
@@ -87,9 +85,7 @@ async def main():
     client = Client()
 
     async with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(
-            field="baseform", value="agin"
-        )
+        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
         response = await querying.query_async(
             "schlyter,soederwall,soederwall-supp",
             client=client,
