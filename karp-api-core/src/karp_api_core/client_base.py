@@ -30,7 +30,7 @@ class ClientBase:
     _headers: dict[str, str] = attrs.field(factory=dict, kw_only=True, alias="headers")
     _timeout: httpx.Timeout | None = attrs.field(default=None, kw_only=True, alias="timeout")
     _verify_ssl: str | bool | ssl.SSLContext = attrs.field(default=True, kw_only=True, alias="verify_ssl")
-    _follow_redirects: bool = attrs.field(default=False, kw_only=True, alias="follow_redirects")
+    _follow_redirects: bool = attrs.field(default=True, kw_only=True, alias="follow_redirects")
     _httpx_args: dict[str, t.Any] = attrs.field(factory=dict, kw_only=True, alias="httpx_args")
     _client: httpx.Client | None = attrs.field(default=None, init=False)
     _async_client: httpx.AsyncClient | None = attrs.field(default=None, init=False)

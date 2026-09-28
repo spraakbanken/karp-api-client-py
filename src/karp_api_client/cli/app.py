@@ -2,7 +2,7 @@
 
 import sys
 
-from karp_api_client.cli import red_app
+from karp_api_client.cli import red_app, search_app
 
 try:
     import typer
@@ -13,3 +13,4 @@ except ImportError:
 app = typer.Typer(help="Karp API client")
 
 app.add_typer(red_app.app, name="red")
+app.add_typer(search_app.app, name="search")

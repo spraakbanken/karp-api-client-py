@@ -22,10 +22,11 @@ def query(
 ) -> None:
     """Query the given resources."""
     datetime_now = datetime.datetime.now()
+    default_filename = f"karp-red-query-{datetime_now.strftime('%Y-%m-%dT%H:%M:%S')}.jsonl"
     if output is None:
-        output = Path(f"output/karp-query-{datetime_now.strftime('%Y-%m-%dT%H:%M:%S')}.jsonl")
+        output = Path(f"output/{default_filename}")
     elif output.is_dir():
-        output /= f"karp-query-{datetime_now.strftime('%Y-%m-%dT%H:%M:%S')}.jsonl"
+        output /= default_filename
 
     print(f"Output will be written to '{output}'", file=sys.stderr)  # noqa: T201
     output.parent.mkdir(exist_ok=True, parents=True)
