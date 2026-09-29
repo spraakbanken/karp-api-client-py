@@ -1,10 +1,13 @@
 """Base client for accessing Karp API:s."""
 
+import logging
 import ssl
 import typing as t
 
 import attrs
 import httpx2 as httpx
+
+logger = logging.getLogger(__name__)
 
 
 class ApiKeyAuth(httpx.Auth):
@@ -78,9 +81,17 @@ class ClientBase:
             self._client = self._create_sync_client()
         return self._client
 
-    # @abc.abstractmethod
     def _create_sync_client(self) -> httpx.Client:
-        print(f"Creating httpx.Client with base_url='{self._base_url}'")  # noqa: T201
+        logger.debug(
+            "Creating httpx.Client with base_url='%s'",
+            self._base_url,
+            extra={
+                "client.base_url": self._base_url,
+                "client.headers": self._headers,
+                "client.timeout": self._timeout,
+                "client.follow_redirects": self._follow_redirects,
+            },
+        )
         return httpx.Client(
             base_url=self._base_url,
             cookies=self._cookies,
