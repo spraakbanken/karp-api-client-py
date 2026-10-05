@@ -17,3 +17,7 @@ build-backend = "uv_build"
 
 [tool.uv.sources]
 karp-api-core = { workspace = true }
+
+[tool.uv.build-backend]
+module-name = "karp_red_api_client"
+module-root = ""
