@@ -1,8 +1,8 @@
-"""A client library for accessing Karp Search API."""
+"""A client library for accessing Karps sökgränssnitt - API"""
 
-from karp_search_api_client.search_client import AuthenticatedSearchClient, SearchClient
+from .client import AuthenticatedClient, Client
 
 __all__ = (
-    "AuthenticatedSearchClient",
-    "SearchClient",
+    "AuthenticatedClient",
+    "Client",
 )

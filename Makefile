@@ -152,3 +152,7 @@ snapshot-update:
 
 generate-ci-workflow:
 	cue cmd regenerate ./internal/ci/github
+
+generate-karp-search:
+	openapi-python-client generate --meta uv --path karp-search-spec.json --output-path karp-search-api-client --custom-template-path templates --overwrite --config karp-search-config.json
+	sed -i 's!KARP_XYZ_BASE_URL!https://spraakbanken4.it.gu.se/karps/v1!g' karp-search-api-client/karp_search_api_client/client.py

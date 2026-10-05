@@ -6,9 +6,9 @@ from pathlib import Path
 
 import json_arrays
 import typer
-from karp_search_api_client import SearchClient
-from karp_search_api_client.api import searching
-from returns.result import Failure, Success
+from karp_search_api_client import Client as SearchClient
+from karp_search_api_client.api.default import do_search_search_get
+from karp_search_api_client.types import UNSET
 
 app = typer.Typer(help="Karp Search API client")
 
@@ -26,19 +26,16 @@ def search(
 
     client = SearchClient()
 
-    search_options = searching.SearchOptions(resources=resources, size=size)
+    resp = do_search_search_get.sync_detailed(client=client, resources=resources, size=size or UNSET)
 
-    match searching.search_sync(client=client, search_options=search_options):
-        case Success(resp):
-            if resp.parsed is None:
-                print("No response", file=sys.stderr)  # noqa: T201
-                return
-            if hits:
-                json_arrays.dump_to_file(
-                    (hit.to_dict() for hit in resp.parsed.hits), output, use_stdout_as_default=True
-                )
-            else:
-                json_arrays.dump_to_file(resp.parsed.to_dict(), output, use_stdout_as_default=True)
-        case Failure(err):
-            print(f"Error occurred!\n{err}", file=sys.stderr)  # noqa: T201
-            sys.exit(2)
+    if resp.status_code.is_success:
+        if resp.parsed is None:
+            print("No response", file=sys.stderr)  # noqa: T201
+            return
+        if hits:
+            json_arrays.dump_to_file((hit.to_dict() for hit in resp.parsed.hits), output, use_stdout_as_default=True)
+        else:
+            json_arrays.dump_to_file(resp.parsed.to_dict(), output, use_stdout_as_default=True)
+    else:
+        print(f"Error occurred!\n{resp.parsed}", file=sys.stderr)  # noqa: T201
+        sys.exit(2)

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.11"
 resolution-markers = [
     "python_full_version >= '3.12' and sys_platform == 'emscripten'",
@@ -320,14 +320,20 @@ requires-dist = [{ name = "karp-api-core", editable = "karp-api-core" }]
 
 [[package]]
 name = "karp-search-api-client"
-version = "0.1.0"
+version = "1"
 source = { editable = "karp-search-api-client" }
 dependencies = [
+    { name = "attrs" },
+    { name = "httpx2" },
     { name = "karp-api-core" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "karp-api-core", editable = "karp-api-core" }]
+requires-dist = [
+    { name = "attrs", specifier = ">=22.2.0" },
+    { name = "httpx2", specifier = ">=2.0.0,<3.0.0" },
+    { name = "karp-api-core", editable = "karp-api-core" },
+]
 
 [[package]]
 name = "markdown-it-py"

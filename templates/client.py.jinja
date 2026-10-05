@@ -17,7 +17,7 @@ from karp_api_core.client_base import ApiKeyAuth, ClientBase
             " that was not documented in the source OpenAPI document. Can also be provided as a keyword"
             " argument to the constructor."
     ),
-    "token": namespace(type="str", default="", docstring="The token to use for authentication"),
+    "token": namespace(type="str", default="attrs.field(repr=False)", docstring="The token to use for authentication"),
     "prefix": namespace(type="str", default='"Bearer"', docstring="The prefix to use for the Authorization header"),
     "auth_header_name": namespace(type="str", default='"Authorization"', docstring="The name of the Authorization header"),
 } %}
@@ -68,7 +68,7 @@ class Client(ClientBase):
     """
 {% macro attributes() %}
     # {{ declare_attr("raise_on_unexpected_status") | indent(4) }}
-    _base_url: str = attrs.field(default="", alias="base_url")
+    _base_url: str = attrs.field(default="KARP_XYZ_BASE_URL", alias="base_url")
 
 {% endmacro %}{{ attributes() }}
 {% macro builders(self) %}
