@@ -1,46 +1,46 @@
-"""EntryDto model."""
+from __future__ import annotations
 
 import typing as t
+from collections.abc import Mapping
+from typing import Any
 
 import attrs
-from karp_api_core.models import mixins
 
-from karp_red_api_client.value_objects import UNSET, Unset
+from ..types import UNSET, Unset
+
+if t.TYPE_CHECKING:
+    from ..models.entry_dto_entry import EntryDtoEntry
 
 
-@attrs.define
-class EntryDtoEntry(mixins.WithAdditionalProperties):
-    """Entry for EntryDto.entry."""
+T = t.TypeVar("T", bound="EntryDto")
 
 
 @attrs.define
 class EntryDto:
-    """EntryDto.
-
+    """
     Attributes:
-    id (str):
-    version (int):
-    last_modified (float):
-    last_modified_by (str):
-    resource (str):
-    entry (EntryDtoEntry):
-    message (Union[None, Unset, str]):
-    discarded (Union[Unset, bool]):  Default: False.
+        id (str):
+        version (int):
+        last_modified (float):
+        last_modified_by (str):
+        discarded (bool):
+        resource (str):
+        entry (EntryDtoEntry):
+        message (None | str | Unset):
     """
 
     id: str
     version: int
     last_modified: float
     last_modified_by: str
+    discarded: bool
     resource: str
     entry: EntryDtoEntry
-    message: Unset | str | None = UNSET
-    discarded: Unset | bool = False
-    additional_properties: dict[str, t.Any] = attrs.field(init=False, factory=dict)
+    message: None | str | Unset = UNSET
+    additional_properties: dict[str, Any] = attrs.field(init=False, factory=dict)
 
-    def to_dict(self) -> dict[str, t.Any]:
-        """Serialize this object to dict."""
-        id_ = self.id
+    def to_dict(self) -> dict[str, Any]:
+        id = self.id
 
         version = self.version
 
@@ -48,70 +48,73 @@ class EntryDto:
 
         last_modified_by = self.last_modified_by
 
+        discarded = self.discarded
+
         resource = self.resource
 
         entry = self.entry.to_dict()
 
-        message: Unset | str | None
-        message = UNSET if isinstance(self.message, Unset) else self.message
+        message: None | str | Unset
+        if isinstance(self.message, Unset):
+            message = UNSET
+        else:
+            message = self.message
 
-        discarded = self.discarded
-
-        field_dict: dict[str, t.Any] = {}
+        field_dict: dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "id": id_,
+                "id": id,
                 "version": version,
-                "last_modified": last_modified,
-                "last_modified_by": last_modified_by,
+                "lastModified": last_modified,
+                "lastModifiedBy": last_modified_by,
+                "discarded": discarded,
                 "resource": resource,
                 "entry": entry,
             }
         )
         if message is not UNSET:
             field_dict["message"] = message
-        if discarded is not UNSET:
-            field_dict["discarded"] = discarded
 
         return field_dict
 
     @classmethod
-    def from_dict(cls, src_dict: dict[str, t.Any]) -> t.Self:
-        """Deserialize from dict."""
-        d = src_dict.copy()
-        id_ = d.pop("id")
+    def from_dict(cls, src_dict: Mapping[str, Any]) -> t.Self:
+        from ..models.entry_dto_entry import EntryDtoEntry  # noqa: PLC0415
+
+        d = dict(src_dict)
+        id = d.pop("id")
 
         version = d.pop("version")
 
-        last_modified = d.pop("last_modified")
+        last_modified = d.pop("lastModified")
 
-        last_modified_by = d.pop("last_modified_by")
+        last_modified_by = d.pop("lastModifiedBy")
+
+        discarded = d.pop("discarded")
 
         resource = d.pop("resource")
 
         entry = EntryDtoEntry.from_dict(d.pop("entry"))
 
-        def _parse_message(data: object) -> Unset | str | None:
+        def _parse_message(data: object) -> None | str | Unset:
             if data is None:
                 return data
             if isinstance(data, Unset):
                 return data
-            return t.cast(Unset | str | None, data)
+            return t.cast(None | str | Unset, data)
 
         message = _parse_message(d.pop("message", UNSET))
 
-        discarded = d.pop("discarded", UNSET)
-
         entry_dto = cls(
-            id=id_,
+            id=id,
             version=version,
             last_modified=last_modified,
             last_modified_by=last_modified_by,
+            discarded=discarded,
             resource=resource,
             entry=entry,
             message=message,
-            discarded=discarded,
         )
 
         entry_dto.additional_properties = d
@@ -119,21 +122,16 @@ class EntryDto:
 
     @property
     def additional_keys(self) -> list[str]:
-        """Return any additional keys."""
         return list(self.additional_properties.keys())
 
-    def __getitem__(self, key: str) -> t.Any:
-        """Get an additional property by key."""
+    def __getitem__(self, key: str) -> Any:
         return self.additional_properties[key]
 
-    def __setitem__(self, key: str, value: t.Any) -> None:
-        """Set an additional property."""
+    def __setitem__(self, key: str, value: Any) -> None:
         self.additional_properties[key] = value
 
     def __delitem__(self, key: str) -> None:
-        """Delete an additional property."""
         del self.additional_properties[key]
 
     def __contains__(self, key: str) -> bool:
-        """Check if this object contains an additional propery 'key'."""
         return key in self.additional_properties

@@ -2,7 +2,7 @@
 
 import sys
 
-from karp_red_api_client import RedClient, dsl
+from karp_red_api_client import Client, dsl
 from karp_red_api_client.api import querying
 from karp_red_api_client.models import QueryResponse
 from karp_red_api_client.responses import Response
@@ -10,7 +10,7 @@ from returns.result import Failure, Success
 
 
 def main() -> None:  # noqa: D103
-    client = RedClient()
+    client = Client()
 
     with client as client:
         q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")

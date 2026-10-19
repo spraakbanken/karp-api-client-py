@@ -1,1 +1,1 @@
-"""Karp Red API."""
+"""Contains methods for accessing the API"""

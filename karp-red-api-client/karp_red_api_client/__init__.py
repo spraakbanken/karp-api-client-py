@@ -1,8 +1,8 @@
-"""A client library for accessing Karp Red API."""
+"""A client library for accessing Karp API"""
 
-from karp_red_api_client.red_client import AuthenticatedRedClient, RedClient
+from .client import AuthenticatedClient, Client
 
 __all__ = (
-    "AuthenticatedRedClient",
-    "RedClient",
+    "AuthenticatedClient",
+    "Client",
 )
