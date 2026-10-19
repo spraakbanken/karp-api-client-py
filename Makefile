@@ -156,3 +156,7 @@ generate-ci-workflow:
 generate-karp-search:
 	openapi-python-client generate --meta uv --path karp-search-spec.json --output-path karp-search-api-client --custom-template-path templates --overwrite --config karp-search-config.json
 	sed -i 's!KARP_XYZ_BASE_URL!https://spraakbanken4.it.gu.se/karps/v1!g' karp-search-api-client/karp_search_api_client/client.py
+
+generate-karp-red:
+	openapi-python-client generate --meta uv --path karp-red-spec.json --output-path karp-red-api-client --custom-template-path templates --overwrite --config karp-red-config.json
+	sed -i 's!KARP_XYZ_BASE_URL!https://spraakbanken4.it.gu.se/karp/v7!g' karp-red-api-client/karp_red_api_client/client.py
