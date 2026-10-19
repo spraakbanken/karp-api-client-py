@@ -2,30 +2,30 @@
 name = "karp-red-api-client"
 version = "7.0.0"
 description = "A client library for accessing Karp API"
+readme = "README.md"
+requires-python = ">=3.12"
 authors = [
   { name = "Språkbanken", email = "sb-info@svenska.gu.se" },
 ]
-requires-python = ">=3.11"
-readme = "README.md"
 dependencies = [
-    "karp-api-core",
-    "httpx2>=2.0.0,<3.0.0",
-    "attrs>=22.2.0",
+  "attrs>=22.2.0",
+  "httpx2>=2.0.0,<3.0.0",
+  "karp-api-core",
 ]
-
-[tool.uv.build-backend]
-module-name = "karp_red_api_client"
-module-root = ""
 
 [build-system]
 requires = ["uv_build>=0.12.0,<0.13.0"]
 build-backend = "uv_build"
-
-[tool.uv.sources]
-karp-api-core = { workspace = true }
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
 select = ["F", "I", "UP"]
+
+[tool.uv.build-backend]
+module-name = "karp_red_api_client"
+module-root = ""
+
+[tool.uv.sources]
+karp-api-core = { workspace = true }
