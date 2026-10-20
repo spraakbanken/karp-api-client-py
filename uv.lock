@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 
 [options]
@@ -201,7 +201,6 @@ dependencies = [
     { name = "httpx2" },
     { name = "karp-red-api-client" },
     { name = "karp-search-api-client" },
-    { name = "returns" },
 ]
 
 [package.optional-dependencies]
@@ -228,7 +227,6 @@ requires-dist = [
     { name = "json-arrays", marker = "extra == 'cli'", specifier = ">=0.15.0" },
     { name = "karp-red-api-client", editable = "karp-red-api-client" },
     { name = "karp-search-api-client", editable = "karp-search-api-client" },
-    { name = "returns", specifier = ">=0.23.0" },
     { name = "typer", marker = "extra == 'cli'", specifier = ">=0.15.1" },
 ]
 provides-extras = ["cli"]
@@ -399,18 +397,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/01/81/1d954849aed17b254d1c397eb4447a05eedce612a56b627c071df2ce00c1/pytest-coverage-0.0.tar.gz", hash = "sha256:db6af2cbd7e458c7c9fd2b4207cee75258243c8a81cad31a7ee8cfad5be93c05", size = 873, upload-time = "2015-06-17T21:50:38.956Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5b/4b/d95b052f87db89a2383233c0754c45f6d3b427b7a4bcb771ac9316a6fae1/pytest_coverage-0.0-py2.py3-none-any.whl", hash = "sha256:dedd084c5e74d8e669355325916dc011539b190355021b037242514dee546368", size = 2013, upload-time = "2015-06-17T22:08:36.771Z" },
-]
-
-[[package]]
-name = "returns"
-version = "0.23.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "typing-extensions" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/52/b4/411f1e4026344f0ccabc5654aee02280ebe8a9783756e53c76437693dc9a/returns-0.23.0.tar.gz", hash = "sha256:27594c28e5fc338e052d27ddf77fe1da82db4472f6d59901e7e9165be35a5256", size = 242563, upload-time = "2024-06-15T09:18:25.581Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/9c/cc/ff7046c009c17136f83764f8ff225309b58d364c2ffd5626b5a338bd865a/returns-0.23.0-py3-none-any.whl", hash = "sha256:278aa6168072b24574ad14be32f7123d1b835928473dd40bc506f47c8b25859a", size = 155284, upload-time = "2024-06-15T09:18:22.525Z" },
 ]
 
 [[package]]

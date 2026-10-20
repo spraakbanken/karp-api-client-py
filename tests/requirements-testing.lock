@@ -66,8 +66,6 @@ pytest-cov==6.0.0
 pytest-cover==3.0.0
     # via pytest-coverage
 pytest-coverage==0.0
-returns==0.23.0
-    # via karp-api-client
 rich==13.9.4
     # via typer
 ruff==0.16.8
@@ -85,5 +83,4 @@ typing-extensions==4.16.0
     # via
     #   anyio
     #   httpx2
-    #   returns
     #   typer
