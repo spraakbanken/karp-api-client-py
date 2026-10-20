@@ -31,9 +31,9 @@ class EntryDto:
 
     id: str
     version: int
-    last_modified: float
-    last_modified_by: str
-    discarded: bool
+    last_modified: float | None
+    last_modified_by: str | None
+    discarded: bool | None
     resource: str
     entry: EntryDtoEntry
     message: None | str | Unset = UNSET
@@ -87,11 +87,11 @@ class EntryDto:
 
         version = d.pop("version")
 
-        last_modified = d.pop("lastModified")
+        last_modified = d.pop("lastModified", None)
 
-        last_modified_by = d.pop("lastModifiedBy")
+        last_modified_by = d.pop("lastModifiedBy", None)
 
-        discarded = d.pop("discarded")
+        discarded = d.pop("discarded", None)
 
         resource = d.pop("resource")
 

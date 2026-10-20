@@ -1,30 +1,53 @@
-# Proof of concept: karp-client-py
-
+---
+title: "Proof of concept: karp-client-py"
+author: Kristoffer Andersson
 ---
 
-Both [`karp-red-api-client`](./karp-red-api-client) and [`karp-search-api-client`](./karp-search-api-client) are generated with [openapi-generators/openapi-python-client](https://github.com/openapi-generators/openapi-python-client). And both depend on a common library, [`karp-api-core`](./karp-api-core) with common classes.
+# Generating API clients
 
----
+Both `karp-red-api-client` and `karp-search-api-client` are generated with `openapi-python-client`.
 
-### Custom templates
+And both depend on a common library, `karp-api-core` with common classes.
 
-The folder [templates](./templates) contains the templates used (copied from `openapi-python-client`) and modified to use `karp_api_core`.
+## Links
 
----
+- openapi-python-client: https://github.com/openapi-generators/openapi-python-client
 
-### Query DSL
+<!-- end_slide -->
+
+# Using openapi-python-client
+
+```bash
+openapi-python-client generate \
+    --meta uv \
+    --path karp-search-spec.json \
+    --output-path karp-search-api-client \
+    --custom-template-path templates \
+    --overwrite \
+    --config karp-search-config.json
+```
+
+<!-- end_slide -->
+
+# Custom templates
+
+The folder `./templates` contains the templates used (copied from `openapi-python-client`) and modified to use `karp_api_core`.
+
+<!-- end_slide -->
+
+# Query DSL
 
 The query dsl is currently 2 copies in both `karp-red-api-client` and `karp-search-api-client`, but all common code should be implemented in `karp-api-core`.
 
----
+<!-- end_slide -->
 
 ### Nuvarande problem i Karp Red API
 
 `openapi-python-client` har problem med 12 st anrop i Karp Red API, behöver kolla närmare var problemet är, hos `openapi-python-client` eller i `karp-red-backend`:s specifikation?
 
----
+<!-- end_slide -->
 
-Use this library in sync code:
+# Example (sync)
 
 ```python
 from karp_red_api_client import Client, dsl
@@ -34,25 +57,22 @@ from karp_red_api_client.models import QueryResponse
 
 def main() -> None:
     client = Client()
-
-    with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
-        response = query.sync_detailed(
-            "schlyter,soederwall,soederwall-supp",
-            client=client,
-            q=q,
-            size=25,
-        )
-        if response.status_code.is_success and isinstance(response.parsed, QueryResponse):
-            _print_table(resp.parsed)
-        else:
-            print(f"Error occurred!\n{err}")
+    q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
+    response = query.sync_detailed(
+        client=client,
+        resources="schlyter,soederwall,soederwall-supp",
+        q=q,
+    )
+    if response.status_code.is_success and isinstance(response.parsed, QueryResponse):
+        _print_table(resp.parsed)
+    else:
+        print(f"Error occurred!\n{err}")
 
 
 def _print_table(response: QueryResponse) -> None:
     print(f"{'baseform':20s}{'resource':20s}entry")
     for entry in response.hits:
-        print(f"{entry['entry']['baseform']:20s}{entry['resource']:20s}{entry}")
+        print(f"{entry.entry['baseform']:20s}{entry.resource:20s}{entry}")
 
     print("---")
     print(f"showing {len(response.hits)} entries of {response.total} in total.")
@@ -62,9 +82,9 @@ if __name__ == "__main__":
     main()
 ```
 
----
+<!-- end_slide -->
 
-Or use it in async code:
+# Example (async)
 
 ```python
 import anyio
@@ -77,18 +97,16 @@ from karp_red_api_client.models import QueryResponse
 async def main():
     client = Client()
 
-    async with client as client:
-        q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
-        response = await query.asyncio_detailed(
-            "schlyter,soederwall,soederwall-supp",
-            client=client,
-            q=q,
-            size=25,
-        )
-        if response.status_code.is_success and isinstance(response.parsed, QueryResponse):
-            _print_table(resp.parsed)
-        else:
-            print(f"Error occurred!\n{err}")
+    q = dsl.Equals(field="baseform", value="agha") | dsl.Equals(field="baseform", value="agin")
+    response = await query.asyncio_detailed(
+        client=client,
+        resources="schlyter,soederwall,soederwall-supp",
+        q=q,
+    )
+    if response.status_code.is_success and isinstance(response.parsed, QueryResponse):
+        _print_table(resp.parsed)
+    else:
+        print(f"Error occurred!\n{err}")
 
 
 def _print_table(response: QueryResponse) -> None:
@@ -104,7 +122,7 @@ if __name__ == "__main__":
     anyio.run(main)
 ```
 
----
+<!-- end_slide -->
 
 ## Roadmap
 
@@ -128,6 +146,11 @@ if __name__ == "__main__":
     - [x] `or(<expr1>||<expr2>||...)`
   - [ ] Karp Red Query DSL
     - [ ] Subqueries
+
+<!-- end_slide -->
+
+## Roadmap, cont.
+
 - [ ] Karp Red API Calls
   - [ ] Searching
     - [x] `/query/{resources}`
@@ -138,20 +161,9 @@ if __name__ == "__main__":
   - [ ] History
   - [ ] Resources
   - [ ] Default
+
+<!-- end_slide -->
+
+## Roadmap, cont.
+
 - [ ] Karp Search API Calls
-
-## Development
-
-Both [`karp-red-api-client`](./karp-red-api-client) and [`karp-search-api-client`](./karp-search-api-client) are generated with [openapi-generators/openapi-python-client](https://github.com/openapi-generators/openapi-python-client). And both depend on a common library, [`karp-api-core`](./karp-api-core) with common classes.
-
-### Custom templates
-
-The folder [templates](./templates) contains the templates used (copied from `openapi-python-client`) and modified to use `karp_api_core`.
-
-### Query DSL
-
-The query dsl is currently 2 copies in both `karp-red-api-client` and `karp-search-api-client`, but all common code should be implemented in `karp-api-core`.
-
-### Nuvarande problem i Karp Red API
-
-`openapi-python-client` har problem med 12 st anrop i Karp Red API, behöver kolla närmare var problemet är, hos `openapi-python-client` eller i `karp-red-backend`:s specifikation?

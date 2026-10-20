@@ -80,12 +80,15 @@ class QueryResponse:
                     hits_item_type_0 = EntryDto.from_dict(data)
 
                     return hits_item_type_0
-                except (TypeError, ValueError, AttributeError, KeyError):
+                except (TypeError, ValueError, AttributeError, KeyError) as exc:
+                    print(f"Error: {exc=}, {data=} ({type(data)=})")
                     pass
                 return t.cast(Any | EntryDto, data)
 
+            print(f"{hits_item_data=} ({type(hits_item_data)=})")
             hits_item = _parse_hits_item(hits_item_data)
 
+            print(f"{hits_item_data=} ({type(hits_item_data)=})")
             hits.append(hits_item)
 
         def _parse_distribution(data: object) -> None | QueryResponseDistributionType0:
