@@ -3,7 +3,7 @@ name = "karp-api-client"
 version = "0.1.4"
 description = "Client for accessing Karp API."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 authors = [
   { name = "Språkbanken", email = "sb-info@svenska.gu.se" },
 ]
@@ -12,7 +12,6 @@ dependencies = [
   "httpx2>=2.13.0",
   "karp-red-api-client",
   "karp-search-api-client",
-  "returns>=0.23.0",
 ]
 
 [project.scripts]

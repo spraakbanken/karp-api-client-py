@@ -1,1 +1,0 @@
-"""Karp Search API."""

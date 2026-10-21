@@ -8,11 +8,13 @@
     # via karp-api-client
 -e ./karp-search-api-client
     # via karp-api-client
-anyio==4.8.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
-anyio==4.15.1 ; python_full_version < '3.12' or sys_platform != 'emscripten'
+anyio==4.15.1
     # via httpx2
 attrs==24.3.0
-    # via karp-api-client
+    # via
+    #   karp-api-client
+    #   karp-red-api-client
+    #   karp-search-api-client
 click==8.1.8
     # via typer
 colorama==0.4.6 ; sys_platform == 'win32'
@@ -29,7 +31,9 @@ httpx2==2.13.0
     # via
     #   karp-api-client
     #   karp-api-core
-httpx2-jsfetch==1.0 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+    #   karp-red-api-client
+    #   karp-search-api-client
+httpx2-jsfetch==1.0 ; sys_platform == 'emscripten'
     # via httpx2
 idna==3.19
     # via
@@ -62,18 +66,12 @@ pytest-cov==6.0.0
 pytest-cover==3.0.0
     # via pytest-coverage
 pytest-coverage==0.0
-returns==0.23.0
-    # via karp-api-client
 rich==13.9.4
     # via typer
 ruff==0.16.8
 shellingham==1.5.4
     # via typer
-sniffio==1.3.1 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
-    # via anyio
 syrupy==4.8.1
-tomli==2.2.1 ; python_full_version <= '3.11'
-    # via coverage
 truststore==0.10.4 ; sys_platform != 'emscripten'
     # via
     #   httpcore2
@@ -81,15 +79,8 @@ truststore==0.10.4 ; sys_platform != 'emscripten'
 ty==0.0.81
 typer==0.15.1
     # via karp-api-client
-typing-extensions==4.12.2 ; python_full_version >= '3.12' and sys_platform == 'emscripten'
+typing-extensions==4.16.0
     # via
     #   anyio
     #   httpx2
-    #   returns
-    #   typer
-typing-extensions==4.16.0 ; python_full_version < '3.12' or sys_platform != 'emscripten'
-    # via
-    #   anyio
-    #   httpx2
-    #   returns
     #   typer

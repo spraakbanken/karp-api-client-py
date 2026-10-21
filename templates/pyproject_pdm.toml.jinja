@@ -1,0 +1,18 @@
+[project]
+name = "{{ project_name }}"
+version = "{{ package_version | in_double_quote_literal }}"
+description = "{{ package_description | in_double_quote_literal }}"
+authors = []
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx2>=2.0.0,<3.0.0",
+    "attrs>=22.2.0",
+]
+
+[tool.pdm]
+distribution = true
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
